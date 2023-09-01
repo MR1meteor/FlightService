@@ -7,7 +7,7 @@ namespace FlightService.Data.Repositories
 {
     public class DocumentRepository : IDocumentRepository
     {
-        private const string TABLE_NAME = "public.\"Documents\"";
+        private const string TABLE_NAME = @"public.""Documents""";
         private readonly DapperContext _context;
 
         public DocumentRepository(DapperContext context)
@@ -17,7 +17,7 @@ namespace FlightService.Data.Repositories
 
         public async Task<IEnumerable<Document>> GetAllByPassenger(long passengerId)
         {
-            var query = $"SELECT * FROM {TABLE_NAME} WHERE \"PassengerId\" = @passengerId";
+            var query = $@"SELECT * FROM {TABLE_NAME} WHERE ""PassengerId"" = @passengerId";
 
             var queryArgs = new { PassengerId = passengerId };
 
@@ -50,7 +50,7 @@ namespace FlightService.Data.Repositories
         
         public async Task Delete(long documentId)
         {
-            var query = $"DELETE FROM {TABLE_NAME} WHERE \"Id\" = @id";
+            var query = $@"DELETE FROM {TABLE_NAME} WHERE ""Id"" = @id";
 
             var queryArgs = new { Id = documentId };
 

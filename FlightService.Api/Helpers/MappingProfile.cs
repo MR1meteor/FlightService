@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FlightService.Api.Dtos.Document;
+using FlightService.Api.Dtos.Passenger;
 using FlightService.Core.Models;
 
 namespace FlightService.Api.Helpers
@@ -11,6 +12,11 @@ namespace FlightService.Api.Helpers
             #region Document
             CreateMap<Document, GetDocumentDto>();
             CreateMap<UpdateDocumentDto, Document>();
+            #endregion
+
+            #region Passenger
+            CreateMap<Passenger, GetPassengerDto>();
+            CreateMap<UpdatePassengerDto, Passenger>();
             #endregion
         }
     }

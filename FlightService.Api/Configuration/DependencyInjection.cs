@@ -37,6 +37,7 @@ namespace FlightService.Api.Configuration
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IDocumentService, DocumentService>();
+            services.AddScoped<IPassengerService, PassengerService>();
         }
 
         private static void ConfigureRepositories(IServiceCollection services)
@@ -44,6 +45,7 @@ namespace FlightService.Api.Configuration
             services.AddSingleton<DapperContext>();
 
             services.AddScoped<IDocumentRepository, DocumentRepository>();
+            services.AddScoped<IPassengerRepository, PassengerRepository>();
         }
 
         private static void ConfigureAutomapper(IServiceCollection services)
