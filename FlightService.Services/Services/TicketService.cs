@@ -55,6 +55,12 @@ namespace FlightService.Services.Services
             if (ticket.OrderNumber <= 0)
                 throw new BadRequestException("Ticket Order Number cannot be less than 1");
 
+            if (ticket.DepartureTime <= ticket.ArrivalTime)
+                throw new BadRequestException("Departure time cannot be less than or equal to the arrival time");
+
+            if (ticket.OrderTime <= ticket.DepartureTime)
+                throw new BadRequestException("Order time cannot be less than or equal to the departure and arrival times");
+
             var ticketExists = await _ticketRepository.ExistsByOrderNumber(ticket.OrderNumber);
 
             if (!ticketExists)

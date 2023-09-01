@@ -39,6 +39,7 @@ namespace FlightService.Api.Configuration
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IPassengerService, PassengerService>();
             services.AddScoped<ITicketService, TicketService>();
+            services.AddScoped<IReportService, ReportService>();
         }
 
         private static void ConfigureRepositories(IServiceCollection services)

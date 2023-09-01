@@ -9,6 +9,7 @@ namespace FlightService.Data.Repositories
     public class TicketRepository : ITicketRepository
     {
         private const string TABLE_NAME = @"public.""Tickets""";
+        private const string PASSENGERS_TICKETS_TABLE_NAME = @"public.""Tickets_Passengers""";
         private readonly DapperContext _context;
 
         public TicketRepository(DapperContext context)
@@ -27,13 +28,31 @@ namespace FlightService.Data.Repositories
             }
         }
 
+        public async Task<IEnumerable<Ticket>> GetAllByPassengerInRange(long passengerId, DateTime startTime, DateTime endTime)
+        {
+            var query = $@"SELECT * FROM {TABLE_NAME} WHERE ""OrderNumber"" IN
+                        (SELECT ""OrderNumber"" FROM {PASSENGERS_TICKETS_TABLE_NAME}
+                        WHERE ""PassengerId"" = @passengerId) 
+                        AND (""OrderTime"" <= @startTime AND ""ArrivalTime"" BETWEEN @startTime AND @endTime OR
+                        ""OrderTime"" BETWEEN @startTime AND @endTime AND ""DepartureTime"" BETWEEN @startTime AND @endTime)";
+
+            var queryArgs = new 
+            {
+                PassengerId = passengerId,
+                StartTime = startTime,
+                EndTime = endTime
+            };
+
+            using (var connection = _context.CreateConnection())
+            {
+                var tickets = await connection.QueryAsync<Ticket>(query, queryArgs);
+                return tickets.ToList();
+            }
+        }
+
         public async Task<Ticket> GetById(long ticketOrderNumber)
         {
             var query = $@"SELECT * FROM {TABLE_NAME} WHERE ""OrderNumber"" = @orderNumber";
-            //var query = $@"SELECT * FROM {TABLE_NAME}
-            //            LEFT JOIN {PASSENGERS_TABLE_NAME} ON {PASSENGERS_TABLE_NAME}.""Id"" IN
-            //            (SELECT ""PassengerId"" FROM {PASSENGERS_TICKETS_TABLE_NAME} WHERE ""OrderNumber"" = @orderNumber)
-            //            LEFT JOIN {DOCUMENTS_TABLE_NAME} ON {DOCUMENTS_TABLE_NAME}.""Id"" = ""PassengerId""";
 
             var queryArgs = new { OrderNumber = ticketOrderNumber };
 
