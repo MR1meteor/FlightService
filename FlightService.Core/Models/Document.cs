@@ -5,7 +5,7 @@
         public long Id { get; set; }
         
         public string DocumentType { get; set; }
-        public string DocumentName { get; set; }
+        public string DocumentNumber { get; set; }
 
         public long PassengerId { get; set; }
     }

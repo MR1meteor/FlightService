@@ -1,4 +1,6 @@
-﻿namespace FlightService.Api.Configuration
+﻿using FlightService.Data.Data;
+
+namespace FlightService.Api.Configuration
 {
     public static class DependencyInjection
     {
@@ -21,7 +23,7 @@
 
         private static void ConfigureRepositories(this IServiceCollection services)
         {
-            
+            services.AddSingleton<DapperContext>();
         }
     }
 }

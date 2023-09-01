@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FlightService.Core\FlightService.Core.csproj" />
+    <ProjectReference Include="..\FlightService.Data\FlightService.Data.csproj" />
   </ItemGroup>
 
 </Project>
