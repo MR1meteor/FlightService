@@ -28,12 +28,12 @@ namespace FlightService.Data.Repositories
             }
         }
 
-        public async Task Update(Document document)
+        public async Task<Document> Update(Document document)
         {
             var query = $@"UPDATE {TABLE_NAME} 
                         SET ""DocumentType"" = @documentType, ""DocumentNumber"" = @documentNumber
-                        WHERE ""Id"" = @id";
-                        //RETURNING *";
+                        WHERE ""Id"" = @id
+                        RETURNING *";
 
             var queryArgs = new
             {
@@ -44,7 +44,8 @@ namespace FlightService.Data.Repositories
 
             using (var connection = _context.CreateConnection())
             {
-                await connection.ExecuteAsync(query, queryArgs);
+                var updatedDocument = await connection.QueryAsync<Document>(query, queryArgs);
+                return updatedDocument.FirstOrDefault();
             }
         }
         

@@ -8,10 +8,14 @@ namespace FlightService.Services.Services
     public class PassengerService : IPassengerService
     {
         private readonly IPassengerRepository _passengerRepository;
+        private readonly ITicketRepository _ticketRepository;
 
-        public PassengerService(IPassengerRepository passengerRepository)
+        public PassengerService(
+            IPassengerRepository passengerRepository,
+            ITicketRepository ticketRepository)
         {
             _passengerRepository = passengerRepository;
+            _ticketRepository = ticketRepository;
         }
 
         public async Task<IEnumerable<Passenger>> GetPassengersByTicketsAsync(long ticketOrderNumber)
@@ -19,11 +23,16 @@ namespace FlightService.Services.Services
             if (ticketOrderNumber <= 0)
                 throw new BadRequestException("Ticket Order Id cannot be less than 1");
 
+            var ticketExists = await _ticketRepository.ExistsByOrderNumber(ticketOrderNumber);
+
+            if (!ticketExists)
+                throw new NotFoundException($"Ticket with order number: {ticketOrderNumber} not found");
+
             var passengers = await _passengerRepository.GetAllByTicket(ticketOrderNumber);
             return passengers;
         }
 
-        public async Task UpdatePassengerAsync(Passenger passenger)
+        public async Task<Passenger> UpdatePassengerAsync(Passenger passenger)
         {
             if (passenger == null)
                 throw new BadRequestException("Passenger was null");
@@ -36,7 +45,9 @@ namespace FlightService.Services.Services
             if (!passengerExists)
                 throw new NotFoundException($"Passenger with id: {passenger.Id} not found");
 
-            await _passengerRepository.Update(passenger);
+            var updatedPassenger = await _passengerRepository.Update(passenger);
+            
+            return updatedPassenger;
         }
         
         public async Task DeletePassengerAsync(long passengerId)

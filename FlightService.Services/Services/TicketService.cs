@@ -47,7 +47,7 @@ namespace FlightService.Services.Services
             return ticket;
         }
 
-        public async Task UpdateTicket(Ticket ticket)
+        public async Task<Ticket> UpdateTicket(Ticket ticket)
         {
             if (ticket == null)
                 throw new BadRequestException("Ticket was null");
@@ -55,18 +55,20 @@ namespace FlightService.Services.Services
             if (ticket.OrderNumber <= 0)
                 throw new BadRequestException("Ticket Order Number cannot be less than 1");
 
-            if (ticket.DepartureTime <= ticket.ArrivalTime)
-                throw new BadRequestException("Departure time cannot be less than or equal to the arrival time");
+            if (ticket.DepartureTime >= ticket.ArrivalTime)
+                throw new BadRequestException("Departure time cannot be greater than or equal to the arrival time");
 
-            if (ticket.OrderTime <= ticket.DepartureTime)
-                throw new BadRequestException("Order time cannot be less than or equal to the departure and arrival times");
+            if (ticket.OrderTime >= ticket.DepartureTime)
+                throw new BadRequestException("Order time cannot be greater than or equal to the departure and arrival times");
 
             var ticketExists = await _ticketRepository.ExistsByOrderNumber(ticket.OrderNumber);
 
             if (!ticketExists)
                 throw new NotFoundException($"Ticket with order number: {ticket.OrderNumber} not found");
 
-            await _ticketRepository.Update(ticket);
+            var updatedTicket = await _ticketRepository.Update(ticket);
+
+            return updatedTicket;
         }
         
         public async Task DeleteTicket(long ticketOrderNumber)

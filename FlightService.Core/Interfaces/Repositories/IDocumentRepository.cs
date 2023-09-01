@@ -5,7 +5,7 @@ namespace FlightService.Core.Interfaces.Repositories
     public interface IDocumentRepository
     {
         Task<IEnumerable<Document>> GetAllByPassenger(long passengerId);
-        Task Update(Document document);
+        Task<Document> Update(Document document);
         Task Delete(long documentId);
 
         Task<bool> ExistsById(long documentId);

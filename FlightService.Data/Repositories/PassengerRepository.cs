@@ -31,11 +31,12 @@ namespace FlightService.Data.Repositories
             }
         }
 
-        public async Task Update(Passenger passenger)
+        public async Task<Passenger> Update(Passenger passenger)
         {
             var query = $@"UPDATE {TABLE_NAME}
                         SET ""Name"" = @name, ""Surname"" = @surname, ""Patronymic"" = @patronymic
-                        WHERE ""Id"" = @id";
+                        WHERE ""Id"" = @id
+                        RETURNING *";
 
             var queryArgs = new
             {
@@ -47,7 +48,8 @@ namespace FlightService.Data.Repositories
 
             using (var connection = _context.CreateConnection())
             {
-                await connection.ExecuteAsync(query, queryArgs);
+                var updatedPassenger = await connection.QueryAsync<Passenger>(query, queryArgs);
+                return updatedPassenger.FirstOrDefault();
             }
         }
         

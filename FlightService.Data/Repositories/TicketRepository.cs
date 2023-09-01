@@ -63,13 +63,14 @@ namespace FlightService.Data.Repositories
             }
         }
 
-        public async Task Update(Ticket ticket)
+        public async Task<Ticket> Update(Ticket ticket)
         {
             var query = $@"UPDATE {TABLE_NAME} 
                         SET ""OrderTime"" = @orderTime, ""DeparturePoint"" = @departurePoint,
                         ""ArrivalPoint"" = @arrivalPoint, ""DepartureTime"" = @departureTime,
                         ""ArrivalTime"" = @arrivalTime, ""Provider"" = @provider
-                        WHERE ""OrderNumber"" = @orderNumber";
+                        WHERE ""OrderNumber"" = @orderNumber
+                        RETURNING *";
 
             var queryArgs = new
             {
@@ -84,7 +85,8 @@ namespace FlightService.Data.Repositories
 
             using (var connection = _context.CreateConnection())
             {
-                await connection.ExecuteAsync(query, queryArgs);
+                var updatedTicket = await connection.QueryAsync<Ticket>(query, queryArgs);
+                return updatedTicket.FirstOrDefault();
             }
         }
         

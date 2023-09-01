@@ -31,13 +31,13 @@ namespace FlightService.Api.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetPassengerDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdatePassenger([FromBody] UpdatePassengerDto passengerDto)
         {
-            await _passengerService.UpdatePassengerAsync(_mapper.Map<Passenger>(passengerDto));
-            return Ok();
+            var updatedPassenger = await _passengerService.UpdatePassengerAsync(_mapper.Map<Passenger>(passengerDto));
+            return Ok(_mapper.Map<GetPassengerDto>(updatedPassenger));
         }
 
         [HttpDelete("{passengerId:long}")]

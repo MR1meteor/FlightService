@@ -40,13 +40,13 @@ namespace FlightService.Api.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetTicketDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateTicket([FromBody] UpdateTicketDto ticketDto)
         {
-            await _ticketService.UpdateTicket(_mapper.Map<Ticket>(ticketDto));
-            return Ok();
+            var updatedTicket = await _ticketService.UpdateTicket(_mapper.Map<Ticket>(ticketDto));
+            return Ok(_mapper.Map<GetTicketDto>(updatedTicket));
         }
 
         [HttpDelete("{ticketOrderNumber:long}")]

@@ -8,10 +8,14 @@ namespace FlightService.Services.Services
     public class ReportService : IReportService
     {
         private readonly ITicketRepository _ticketRepository;
+        private readonly IPassengerRepository _passengerRepository;
 
-        public ReportService(ITicketRepository ticketRepository)
+        public ReportService(
+            ITicketRepository ticketRepository,
+            IPassengerRepository passengerRepository)
         {
             _ticketRepository = ticketRepository;
+            _passengerRepository = passengerRepository;
         }
 
         public async Task<IEnumerable<ReportElement>> GetReportAsync(long passengerId, DateTime startTime, DateTime endTime)
@@ -19,8 +23,13 @@ namespace FlightService.Services.Services
             if (passengerId <= 0)
                 throw new BadRequestException("Passenger id cannot be less than 1");
 
-            if (startTime <= endTime)
-                throw new BadRequestException("Start time cannot be less than or equal to the end time");
+            if (startTime >= endTime)
+                throw new BadRequestException("Start time cannot be greater than or equal to the end time");
+
+            var passengerExists = await _passengerRepository.ExistsById(passengerId);
+
+            if (!passengerExists)
+                throw new NotFoundException($"Passenger with id: {passengerId} not found");
 
             var tickets = await _ticketRepository.GetAllByPassengerInRange(passengerId, startTime, endTime);
 

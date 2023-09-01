@@ -32,14 +32,14 @@ namespace FlightService.Api.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetDocumentDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateDocument([FromBody] UpdateDocumentDto updateDto)
         {
-            await _documentService.UpdateDocumentAsync(_mapper.Map<Document>(updateDto));
-            return Ok();
+            var updatedDocument = await _documentService.UpdateDocumentAsync(_mapper.Map<Document>(updateDto));
+            return Ok(_mapper.Map<GetDocumentDto>(updatedDocument));
         }
 
         [HttpDelete("{documentId:long}")]

@@ -6,7 +6,7 @@ namespace FlightService.Core.Interfaces.Services
     {
         Task<IEnumerable<Ticket>> GetTickets();
         Task<Ticket> GetTicketByOrderNumber(long ticketOrderNumber);
-        Task UpdateTicket(Ticket ticket);
+        Task<Ticket> UpdateTicket(Ticket ticket);
         Task DeleteTicket(long ticketOrderNumber);
     }
 }
