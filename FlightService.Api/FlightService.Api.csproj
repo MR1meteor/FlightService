@@ -15,4 +15,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FlightService.Core\FlightService.Core.csproj" />
+  </ItemGroup>
+
 </Project>
