@@ -26,8 +26,8 @@ namespace FlightService.Api.Middlewares
             {
                 context.Response.ContentType = "text/plain";
                 context.Response.StatusCode = (int)ex.StatusCode;
-                _logger.LogWarning(ex.Message);
-                await context.Response.WriteAsync(ex.Message);
+                _logger.LogWarning(ex.ApiMessage);
+                await context.Response.WriteAsync(ex.ApiMessage);
             }
             catch (Exception ex)
             {

@@ -13,9 +13,7 @@ namespace FlightService.Api.Configuration
         private static void ConfigureDevelopmentMiddlewares(this WebApplication app)
         {
             if (!app.Environment.IsDevelopment())
-            {
                 return;
-            }
 
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -26,9 +24,7 @@ namespace FlightService.Api.Configuration
         private static void ConfigureProductionMiddlewares(this WebApplication app)
         {
             if (app.Environment.IsProduction())
-            {
                 return;
-            }
 
             app.UseMiddleware<CustomExceptionHandlerMiddleware>();
         }

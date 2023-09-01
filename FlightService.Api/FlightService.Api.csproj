@@ -7,17 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FlightService.Core\FlightService.Core.csproj" />
     <ProjectReference Include="..\FlightService.Data\FlightService.Data.csproj" />
+    <ProjectReference Include="..\FlightService.Services\FlightService.Services.csproj" />
   </ItemGroup>
 
 </Project>
