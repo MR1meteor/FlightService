@@ -22,7 +22,7 @@ namespace FlightService.Api.Controllers
         }
 
         [HttpGet("{ticketOrderNumber:long}")]
-        [ProducesResponseType(typeof(GetPassengerDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<GetPassengerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetPassengersByTicket([FromRoute] long ticketOrderNumber)
         {

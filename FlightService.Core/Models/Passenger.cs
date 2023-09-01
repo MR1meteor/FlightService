@@ -9,7 +9,7 @@ namespace FlightService.Core.Models
         public string Surname { get; set; }
         public string? Patronymic { get; set; }
 
-        public List<Document> Documents { get; set; } = new List<Document>();
-        public List<Ticket> Tickets { get; set; } = new List<Ticket>();
+        public IEnumerable<Document> Documents { get; set; } = new List<Document>();
+        public IEnumerable<Ticket> Tickets { get; set; } = new List<Ticket>();
     }
 }

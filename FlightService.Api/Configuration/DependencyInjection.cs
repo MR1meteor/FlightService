@@ -38,6 +38,7 @@ namespace FlightService.Api.Configuration
         {
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IPassengerService, PassengerService>();
+            services.AddScoped<ITicketService, TicketService>();
         }
 
         private static void ConfigureRepositories(IServiceCollection services)
@@ -46,6 +47,7 @@ namespace FlightService.Api.Configuration
 
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IPassengerRepository, PassengerRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
         }
 
         private static void ConfigureAutomapper(IServiceCollection services)

@@ -1,6 +1,6 @@
-﻿namespace FlightService.Core.Models
+﻿namespace FlightService.Api.Dtos.Ticket
 {
-    public class Ticket
+    public class GetTicketDto
     {
         public long OrderNumber { get; set; }
         public DateTime OrderTime { get; set; }
@@ -9,7 +9,5 @@
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
         public string Provider { get; set; }
-        
-        public IEnumerable<Passenger> Passengers { get; set; } = new List<Passenger>();
     }
 }

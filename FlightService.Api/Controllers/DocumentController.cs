@@ -22,7 +22,7 @@ namespace FlightService.Api.Controllers
         }
 
         [HttpGet("{passengerId:long}")]
-        [ProducesResponseType(typeof(GetDocumentDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<GetDocumentDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDocumentsByPassenger([FromRoute] long passengerId)
         {
