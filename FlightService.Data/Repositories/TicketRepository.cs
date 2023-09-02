@@ -34,7 +34,7 @@ namespace FlightService.Data.Repositories
                         (SELECT ""OrderNumber"" FROM {PASSENGERS_TICKETS_TABLE_NAME}
                         WHERE ""PassengerId"" = @passengerId) 
                         AND (""OrderTime"" <= @startTime AND ""ArrivalTime"" BETWEEN @startTime AND @endTime OR
-                        ""OrderTime"" BETWEEN @startTime AND @endTime AND ""DepartureTime"" BETWEEN @startTime AND @endTime)";
+                        ""OrderTime"" BETWEEN @startTime AND @endTime)";
 
             var queryArgs = new 
             {
