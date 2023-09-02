@@ -24,6 +24,7 @@ namespace FlightService.Api.Controllers
         [HttpGet("{passengerId:long}")]
         [ProducesResponseType(typeof(List<GetDocumentDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetDocumentsByPassenger([FromRoute] long passengerId)
         {
             var documents = await _documentService.GetDocumentsByPassengersAsync(passengerId);

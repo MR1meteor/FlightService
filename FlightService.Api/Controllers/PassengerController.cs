@@ -24,6 +24,7 @@ namespace FlightService.Api.Controllers
         [HttpGet("{ticketOrderNumber:long}")]
         [ProducesResponseType(typeof(List<GetPassengerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPassengersByTicket([FromRoute] long ticketOrderNumber)
         {
             var passengers = await _passengerService.GetPassengersByTicketsAsync(ticketOrderNumber);
